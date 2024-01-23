@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
 
+    'user_profile',
+    'competition',
+
 
 ]
 
