@@ -7,4 +7,6 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/auth/', include("api.v1.auth.urls")),
+    path('api/v1/competition/', include("api.v1.competition.urls")),
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

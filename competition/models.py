@@ -26,6 +26,8 @@ class Quiz(models.Model):
     active_from = models.DateTimeField()
     active_till = models.DateTimeField()
     difficulty_level = models.CharField(max_length=20, choices=DIFFICULTY_CHOICES)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+
 
     class Meta:
         db_table = "Competition_quiz"
@@ -37,17 +39,29 @@ class Quiz(models.Model):
 
 class Question(models.Model):
     quiz = models.ForeignKey('Quiz', on_delete=models.CASCADE)
-    category = models.ForeignKey('Category', on_delete=models.CASCADE)
-    text = models.TextField()
-    choices = models.JSONField()
-    correct_choice = models.IntegerField()
+    text = models.TextField(max_length= 300)
 
     class Meta:
         db_table = "Competition_questions"
 
+    def get_options(self):
+        return self.options.all()
+
     def __str__(self):
         return self.text
 
+
+class Options(models.Model):
+    question = models.ForeignKey("Question", on_delete=models.CASCADE, related_name='options')
+    option = models.TextField(max_length = 300)
+    is_answer = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = "Competition_options"
+        verbose_name_plural = 'Options'
+
+    def __str__(self):
+        return f'Question : {self.question.text} - Option : {self.option} - Correct : {self.is_answer}'
 
 class Leaderboard(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

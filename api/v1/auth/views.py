@@ -71,6 +71,12 @@ def create(request):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def verify_token(request):
+    return Response({'message': 'Token is valid'})
+
+
+@api_view(['POST'])
 @permission_classes([AllowAny])
 def login(request):
     username = request.data.get('username')
